@@ -1,0 +1,42 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+// 🔥 Wapas le aaye tumhara User table (Login/Admin system ke liye)
+model User {
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String   @unique
+  password  String
+  role      String   @default("USER") // "ADMIN" ya "USER"
+  createdAt DateTime @default(now())
+}
+
+// Tumhara Product table
+model Product {
+  id          Int      @id @default(autoincrement())
+  name        String
+  price       Float
+  description String   @db.Text
+  imageUrl    String?
+  createdAt   DateTime @default(now())
+}
+
+// Tumhara naya Order table
+model Order {
+  id          Int      @id @default(autoincrement())
+  fullName    String
+  email       String
+  address     String   @db.Text
+  city        String
+  pinCode     String
+  totalAmount Float
+  items       Json     
+  status      String   @default("Pending") 
+  createdAt   DateTime @default(now())
+}
